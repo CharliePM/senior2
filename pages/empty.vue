@@ -21,9 +21,9 @@ export default {
       ToDos: [],
     }
   },
-  firestore: {
-    ToDos: db.collection("ToDos")
-  }
+  // firestore: {
+  //   ToDos: db.collection("ToDos")
+  // }
   
   
 };
