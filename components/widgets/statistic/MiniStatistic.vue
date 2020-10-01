@@ -31,7 +31,7 @@ export default {
     subTitle: String,
     color: String,
     iconcolor: String,
-    number: String,
+    number: null,
   }
 };
 </script>

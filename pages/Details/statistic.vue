@@ -83,6 +83,7 @@
   import CircleStatistic from '@/components/widgets/statistic/CircleStatistic';
 
   export default {
+    layout: "dashboard",
     components: {
       CircleStatistic,
       MiniStatistic,

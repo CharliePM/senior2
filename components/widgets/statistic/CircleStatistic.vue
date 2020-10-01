@@ -1,58 +1,107 @@
 <template>
-    <v-card>
-      <v-card-title class="titlebg">
-        <div class="layout row ma-0 justify-space-between pb-1">
-            <div class="video__icon">
-                <div class="circle--inner"></div>
-              </div>
-          <div class="subheading"><h4><b>{{title}}</b></h4></div>
-          <div class="icon">
-            <v-icon :color="color">{{icon}}</v-icon>
-          </div>
+  <v-card class="livecard">
+    <!-- CARD TITLE -->
+    <v-card-title>
+      <div class="layout row ma-0 justify-space-between pb-1">
+        <div class="video__icon">
+          <div class="circle--inner"></div>
         </div>
-      </v-card-title>
-      <v-card-text>
-        <div class="justify-center row layout ma-0">
-          <v-progress-circular
-            :size="150"
-            :width="15"
-            :rotate="-90"
-            :value="percent"
-            :color="color"
-          >
-            {{ value }}/300
-          </v-progress-circular>
+        <div class="subheading">
+          <h4>
+            {{ title }}
+          </h4>
         </div>
-      </v-card-text>
-      <v-divider></v-divider>
+      </div>
+    </v-card-title>
+    <v-divider class="notop"></v-divider>
 
-    </v-card>     
+    <!-- CARD BODY -->
+    <v-card-text>
+      <div class="justify-center row layout ma-0">
+        <v-progress-circular
+          :size="185"
+          :width="25"
+          :rotate="-90"
+          :value="percent"
+          :color="color"
+        >
+          <h3>
+            <b>{{ value }}/300</b>
+          </h3>
+        </v-progress-circular>
+      </div>
+    </v-card-text>
+    <v-divider></v-divider>
+
+    <!-- CARD FOOT -->
+
+    <!-- CARD FOOT 1 -->
+  
+      <v-layout row wrap>
+        <v-flex lg6 sm6 xs6>
+          <v-card
+            color="rgb(38, 137, 189)"
+            dark
+            class="justify-center row layout ml-0"
+           
+          >
+            <v-card-title class="headline"> 274 </v-card-title>
+            <br />
+            <v-card-text> <b>Parking Cars</b> </v-card-text>
+          </v-card>
+        </v-flex>
+
+        <v-flex lg6 sm6 xs6>
+          <v-card
+            color="rgb(38, 137, 189)"
+            dark
+            class="justify-center row layout mr-0"
+          >
+            <v-card-title class="headline"> 274 </v-card-title>
+            <br />
+            <v-card-text> <b>Parking Cars</b> </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+
+
+    <!-- CARD FOOT 2 -->
+  </v-card>
 </template>
 
 <script>
 export default {
   props: {
-    icon: String,
     title: String,
     subTitle: String,
     caption: String,
     value: Number,
     percent: Number,
-    color: String
+    color: String,
   },
-
 };
 </script>
 
 <style scoped>
+.headline {
+  text-align: center;
+}
+
+.notop {
+  margin-top: -12px;
+}
+
+.livecard {
+  background-color: rgb(255, 255, 255);
+}
+
 h4 {
   margin-left: 45px;
 }
 
-.titlebg{
-  background-color:  #8db5f1d7;
-  height:53px;
-
+.titlebg {
+  background-color: #8db5f1d7;
+  height: 53px;
 }
 
 /* LIVE ICON */
@@ -63,7 +112,6 @@ h4 {
   box-sizing: border-box;
 }
 .video__icon {
-
   position: absolute;
   width: 50px;
   left: 20px;
@@ -135,5 +183,4 @@ h4 {
   }
 }
 /* LIVE ICON END */
-
 </style>

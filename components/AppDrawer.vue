@@ -9,9 +9,9 @@
     width="260"
   >
     <v-toolbar color="primary darken-1" dark>
-      <img src="../static/m.png" height="36" alt="Vue Material Admin Template">
+      <a href= '/dashboard'><img src="../static/m.png" height="36" alt="Vue Material Admin Template" ></a>
       <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">ISL Parking</span>
+        <a href= '/dashboard'><span class="hidden-sm-and-down"  >ISL Parking</span></a>
       </v-toolbar-title>
     </v-toolbar>
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
@@ -131,5 +131,12 @@
     .drawer-menu--scroll
       height: calc(100vh - 48px)
       overflow: auto
+</style>
+
+<style scoped>
+a{
+  color: aliceblue;
+  text-decoration:none;
+}
 
 </style>

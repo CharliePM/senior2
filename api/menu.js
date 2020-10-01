@@ -9,45 +9,19 @@ const Menu = [
   },
 
   {
-    title: 'Widgets',
-    group: 'widgets',
-    component: 'widgets',
-    icon: 'widgets',
+    title: 'Details',
+    group: 'Details',
+    component: 'Details',
+    icon: 'emoji_transportation',
     items: [
-      {name: 'social', title: 'Social', href: '/widgets/social'},
-      {name: 'statistic', title: 'Statistic', badge: 'new', href: '/widgets/statistic'},
-      {name: 'chart', title: 'Chart', href: '/widgets/chart'},
-      {name: 'list', title: 'List', href: '/widgets/list'},
-    ]
-  },
-  {header: 'UI Elements'},
-
-  {
-    title: 'Pickers',
-    group: 'pickers',
-    component: 'picker',
-    icon: 'filter_vintage',
-    items: [
-      {name: 'timepicker', title: 'Timepicker', href: '/pickers/timepicker'},
-      {name: 'datepicker', title: 'Datepicker', href: '/pickers/datepicker'},
+     
+      {name: 'statistic', title: 'Statistic', badge: 'new', href: '/Details/statistic'},
+      {name: 'Parking', title: 'Parking', badge: 'new', href: '/Details/Parking'},
+      {name: 'Traffic', title: 'Traffic', badge: 'new', href: '/Details/Traffic'},
 
     ]
   },
   
-  {
-    title: 'Forms & Controls',
-    group: 'forms',
-    component: 'forms',
-    icon: 'edit',
-    items: [
-      {name: 'basic', title: 'General', href: '/forms/basic-forms'},
-      {name: 'selects', title: 'Selects', badge: 'new', href: '/forms/selects'},
-      {name: 'selection-controls', title: 'Selection Controls', href: '/forms/selection-controls'},
-      {name: 'text-fields', title: 'Text Fields', href: '/forms/text-fields'},
-      {name: 'steppers', title: 'Steppers', href: '/forms/steppers'},
-      {name: 'editors', title: 'Editors', href: '/forms/editors'},
-    ]
-  },
   {divider: true},
   {header: 'Extras'},
   {

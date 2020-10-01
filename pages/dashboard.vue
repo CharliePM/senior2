@@ -3,19 +3,22 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h4><b>Today Summary</b></h4>
+          <h4>
+            <b>Today Summary</b>
+          </h4>
         </v-flex>
-        <!-- mini statistic start -->
 
+        <!-- mini statistic start -->
         <v-flex lg8 sm12 xs12>
           <v-widget title="Overall Statistic" content-bg="white">
             <div slot="widget-content">
               <v-layout row wrap>
                 <v-flex lg3 sm6 xs12>
                   <mini-statistic
+                    v-if="currentcar"
+                    :number="currentcar"
                     icon="fa fa-road"
                     title="Total Pass By"
-                    number="359"
                     sub-title="Cars"
                     color="color1"
                     iconcolor="white"
@@ -65,7 +68,6 @@
             :title="item.subheading"
             :sub-title="item.headline"
             :caption="item.caption"
-            :icon="item.icon.label"
             :color="item.linear.color"
             :value="item.linear.value"
             :percent="item.percent"
@@ -94,53 +96,15 @@
           <h4><b>Road Statistic</b></h4>
         </v-flex>
 
-        <!-- Traffic Counting Bar -->
+        <!-- Traffic Counting Group Bar -->
         <v-flex lg8 sm12 xs12>
-          <v-widget
-            title="Road Vehicle Counting (This Week)"
-            content-bg="white"
-          >
-            <v-btn icon slot="widget-header-action">
-              <v-icon class="text--secondary">refresh</v-icon>
-            </v-btn>
+          <v-widget title="Parking Density" content-bg="white">
             <div slot="widget-content">
-              <e-chart
-                :path-option="[
-                  ['dataset.source', siteTrafficData],
-                  [
-                    'color',
-                    [
-                      color.lightBlue.base,
-                      color.green.lighten1,
-                      color.indigo.base,
-                      color.cyan.base,
-                    ],
-                  ],
-                  ['legend.show', true],
-                  ['xAxis.axisLabel.show', true],
-                  ['yAxis.axisLabel.show', true],
-                  ['grid.left', '2%'],
-                  ['grid.bottom', '5%'],
-                  ['grid.right', '3%'],
-                  ['series[0].type', 'bar'],
-                  ['series[0].areaStyle', {}],
-                  ['series[0].smooth', true],
-                  ['series[1].smooth', true],
-                  ['series[1].type', 'bar'],
-                  ['series[1].areaStyle', {}],
-                  ['series[2].smooth', true],
-                  ['series[2].type', 'bar'],
-                  ['series[2].areaStyle', {}],
-                  ['series[3].smooth', true],
-                  ['series[3].type', 'bar'],
-                  ['series[3].areaStyle', {}],
-                ]"
-                height="400px"
-                width="100%"
-              ></e-chart>
+              <PoomChart></PoomChart>
             </div>
           </v-widget>
         </v-flex>
+
         <!-- Categories Pie -->
         <v-flex lg4 sm12 xs12>
           <v-widget title="Categories Count (This Week)" content-bg="white">
@@ -148,6 +112,7 @@
               <e-chart
                 :path-option="[
                   ['dataset.source', locationData],
+
                   ['legend.bottom', '0'],
                   [
                     'color',
@@ -168,21 +133,17 @@
                 ]"
                 height="400px"
                 width="100%"
-                >5000</e-chart
-              >
+              ></e-chart>
             </div>
           </v-widget>
         </v-flex>
 
+        <!-- acitivity/chat widget -->
         <v-flex lg8 sm12 xs12>
-          <v-widget title="Parking Density" content-bg="white">
-            <div slot="widget-content">
-              <PoomChart></PoomChart>
-            </div>
-          </v-widget>
-
-          <!-- Fancy Line Chart -->
+          <plain-table></plain-table>
         </v-flex>
+
+        <!-- Fancy Line Chart -->
         <v-flex lg4 sm12 xs12>
           <box-chart
             class="mt-0"
@@ -196,11 +157,6 @@
             type="area"
           ></box-chart>
         </v-flex>
-
-        <!-- acitivity/chat widget -->
-        <v-flex lg7 sm12 xs12>
-          <plain-table></plain-table>
-        </v-flex>
       </v-layout>
     </v-container>
   </div>
@@ -208,23 +164,20 @@
 
 <script>
 import API from "@/api";
-import EChart from "@/components/chart/echart";
-import MiniStatistic from "@/components/widgets/statistic/MiniStatistic";
-import MiniStatisticSP from "@/components/widgets/statistic/MiniStatisticSP";
-import PostListCard from "@/components/widgets/card/PostListCard";
-import ProfileCard from "@/components/widgets/card/ProfileCard";
-import PostSingleCard from "@/components/widgets/card/PostSingleCard";
-import WeatherCard from "@/components/widgets/card/WeatherCard";
-import PlainTable from "@/components/widgets/list/PlainTable";
-import PlainTableOrder from "@/components/widgets/list/PlainTableOrder";
+import axios from "axios";
 import VWidget from "@/components/VWidget";
 import Material from "vuetify/es5/util/colors";
-import VCircle from "@/components/circle/VCircle";
-import BoxChart from "@/components/widgets/chart/BoxChart";
+import MiniStatistic from "@/components/widgets/statistic/MiniStatistic";
+import MiniStatisticSP from "@/components/widgets/statistic/MiniStatisticSP";
 import CircleStatistic from "@/components/widgets/statistic/CircleStatistic";
-import LinearStatistic from "@/components/widgets/statistic/LinearStatistic";
 import ParkingChartJs from "@/components/widgets/chart/ParkingChartJs";
 import PoomChart from "@/components/widgets/chart/PoomChart";
+
+import EChart from "@/components/chart/echart";
+import BoxChart from "@/components/widgets/chart/BoxChart";
+
+import PlainTable from "@/components/widgets/list/PlainTable";
+import PlainTableOrder from "@/components/widgets/list/PlainTableOrder";
 
 export default {
   layout: "dashboard",
@@ -232,28 +185,24 @@ export default {
     VWidget,
     MiniStatistic,
     MiniStatisticSP,
-    VCircle,
-    WeatherCard,
-    PostSingleCard,
-    PostListCard,
-    ProfileCard,
-    EChart,
-    BoxChart,
     CircleStatistic,
-    LinearStatistic,
-    PlainTable,
-    PlainTableOrder,
     ParkingChartJs,
     PoomChart,
+
+    EChart,
+    BoxChart,
+
+    PlainTable,
+    PlainTableOrder,
   },
   data: () => ({
     color: Material,
     selectedTab: "tab-1",
     categories: "Car",
-    currentcar: 148,
+    currentcar: null,
     trending: [
       {
-        subheading: "Live Parking Data",
+        subheading: "Parking Lot Occupancy",
         headline: "15+",
         caption: "email opens",
         percent: (150 / 300) * 100,
@@ -268,7 +217,39 @@ export default {
         },
       },
     ],
+
+    mytest: null,
+
+    mylocationData: [
+      { value: null, name: "Car" },
+      {
+        value: 5,
+        name: "Bike",
+      },
+      {
+        value: 2,
+        name: "Bus",
+      },
+      {
+        value: 1,
+        name: "Truck",
+      },
+      {
+        value: 10,
+        name: "Other",
+      },
+    ],
   }),
+
+  beforeCreate() {
+    axios
+      .get("http://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
+      .then((res) => {
+        this.mytest = res.data.data.carCount;
+        this.currentcar = this.mytest;
+      });
+  },
+
   computed: {
     siteTrafficData() {
       return API.getMonthVisit;
