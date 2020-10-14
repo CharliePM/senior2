@@ -51,8 +51,8 @@ export default {
     return {
       defaultOption: [
         ['dataset.source', this.data],
-        ['xAxis.show', true],
-        ['yAxis.show', true],
+        ['xAxis.show', false],
+        ['yAxis.show', false],
         ['grid.top', '15%'],
         ['grid.left', '2%'],
         ['grid.bottom', '5%'],

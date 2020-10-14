@@ -12,8 +12,12 @@ export default {
 
   
 
+  
+
   mounted() {
     // Overwriting base render method with actual data.
+    const totalcar = [40, 39, 50, 40, 39, 50, 40]
+
     this.renderChart(
       {
         labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
@@ -21,7 +25,7 @@ export default {
           {
             label: "Car",
             backgroundColor: "#1333a6",
-            data: [40, 39, 50, 40, 39, 50, 40],
+            data: totalcar,
           },
           {
             label: "Bike",

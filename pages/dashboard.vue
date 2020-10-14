@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex sm12>
           <h4>
-            <b>Today Summary</b>
+            <b>Today Summary : 16 Oct 2020</b>
           </h4>
         </v-flex>
 
@@ -28,7 +28,6 @@
                   <mini-statisticSP
                     peaktime="5 PM"
                     besttime="3 AM"
-                    color="black"
                   ></mini-statisticSP>
                 </v-flex>
                 <v-flex lg3 sm6 xs12>
@@ -74,35 +73,46 @@
           ></circle-statistic>
         </v-flex>
 
-        <!--Parking Time Series -->
-        <v-flex lg12 sm12 xs12>
-          <v-widget title="Parking Density" content-bg="white">
-            <v-btn slot="widget-header-action">
+        <!--Road Time Series -->
+        <v-flex lg8 sm12 xs12>
+
+          <v-card class ="timeseriesbg">
+            <v-card-title>
+              <h4 style="color:white;" class="ml-1"><b>Hourly Vehicles Count </b></h4>
+            </v-card-title>
+           
+             <DailyTraffic class="mr-2" style="height: 21.5rem;"></DailyTraffic>
+           
+          </v-card>
+
+          <!-- <v-widget title="Vehicles Count Hourly" content-bg="white"> 
+             <v-btn slot="widget-header-action">
               <b>Today</b>
-              <!-- <v-icon class="text--secondary">refresh</v-icon> -->
             </v-btn>
             <v-btn slot="widget-header-action">
               <b>This Week</b>
-              <!-- <v-icon class="text--secondary">refresh</v-icon> -->
-            </v-btn>
+              <v-icon class="text--secondary">refresh</v-icon>
+            </v-btn> 
+             <div slot="widget-content">
+              <DailyTraffic style="height: 22rem"></DailyTraffic>
+            </div>
+          </v-widget> -->
+        </v-flex> 
+
+        <!-- Traffic Level Bar -->
+        <v-flex lg4 sm12 xs12>
+          <v-widget title="Traffic Density Level" content-bg="white">
             <div slot="widget-content">
-              <ParkingChartJs style="height: 22rem"></ParkingChartJs>
+              <LevelChart style="height: 20rem"></LevelChart>
             </div>
           </v-widget>
         </v-flex>
+
+        <!-- **********************************************WEEK***************************************************** -->
 
         <v-flex sm12>
           <br />
-          <h4><b>Road Statistic</b></h4>
-        </v-flex>
-
-        <!-- Traffic Counting Group Bar -->
-        <v-flex lg8 sm12 xs12>
-          <v-widget title="Parking Density" content-bg="white">
-            <div slot="widget-content">
-              <PoomChart></PoomChart>
-            </div>
-          </v-widget>
+          <h4><b>Weekly Road Statistic</b></h4>
         </v-flex>
 
         <!-- Categories Pie -->
@@ -110,8 +120,10 @@
           <v-widget title="Categories Count (This Week)" content-bg="white">
             <div slot="widget-content">
               <e-chart
+                v-if="currentcar"
+                :number="currentcar"
                 :path-option="[
-                  ['dataset.source', locationData],
+                  ['dataset.source', mylocationData],
 
                   ['legend.bottom', '0'],
                   [
@@ -138,6 +150,15 @@
           </v-widget>
         </v-flex>
 
+        <!-- Traffic Counting Group Bar -->
+        <v-flex lg8 sm12 xs12>
+          <v-widget title="Categories Count by Day" content-bg="white">
+            <div slot="widget-content">
+              <PoomChart></PoomChart>
+            </div>
+          </v-widget>
+        </v-flex>
+
         <!-- acitivity/chat widget -->
         <v-flex lg8 sm12 xs12>
           <plain-table></plain-table>
@@ -148,13 +169,14 @@
           <box-chart
             class="mt-0"
             card-color="cyan"
-            title="Traffic density level"
+            title="Parking density level"
             sub-title="10%"
             icon="trending_up"
             :data="siteTrafficData"
             :chart-color="[color.lightBlue.darken1, 'rgba(255,255,255,0.3)']"
             gradient
             type="area"
+            style="height:25rem"
           ></box-chart>
         </v-flex>
       </v-layout>
@@ -170,8 +192,9 @@ import Material from "vuetify/es5/util/colors";
 import MiniStatistic from "@/components/widgets/statistic/MiniStatistic";
 import MiniStatisticSP from "@/components/widgets/statistic/MiniStatisticSP";
 import CircleStatistic from "@/components/widgets/statistic/CircleStatistic";
-import ParkingChartJs from "@/components/widgets/chart/ParkingChartJs";
+import DailyTraffic from "@/components/widgets/chart/DailyTraffic";
 import PoomChart from "@/components/widgets/chart/PoomChart";
+import LevelChart from "@/components/widgets/chart/LevelChart";
 
 import EChart from "@/components/chart/echart";
 import BoxChart from "@/components/widgets/chart/BoxChart";
@@ -186,8 +209,9 @@ export default {
     MiniStatistic,
     MiniStatisticSP,
     CircleStatistic,
-    ParkingChartJs,
+    DailyTraffic,
     PoomChart,
+    LevelChart,
 
     EChart,
     BoxChart,
@@ -195,30 +219,31 @@ export default {
     PlainTable,
     PlainTableOrder,
   },
+
   data: () => ({
     color: Material,
     selectedTab: "tab-1",
     categories: "Car",
+
     currentcar: null,
+    currentbike: null,
+    currentbus: null,
+    currenttruck: null,
+
     trending: [
       {
         subheading: "Parking Lot Occupancy",
-        headline: "15+",
-        caption: "email opens",
-        percent: (150 / 300) * 100,
+        percent: (1 / 3) * 100,
         valueshow: 100,
-        icon: {
-          label: "email",
-          color: "info",
-        },
         linear: {
-          value: 274,
+          value: 1,
           color: "info",
         },
       },
     ],
 
     mytest: null,
+    mycar: 25,
 
     mylocationData: [
       { value: null, name: "Car" },
@@ -245,8 +270,15 @@ export default {
     axios
       .get("http://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
       .then((res) => {
-        this.mytest = res.data.data.carCount;
-        this.currentcar = this.mytest;
+        this.currentcar = res.data.data.carCount;
+        this.currentbike = res.data.data.motorcycleCount;
+        this.currentbus = res.data.data.busCount;
+        this.currenttruck = res.data.data.truckCount;
+
+        this.mylocationData[0].value = this.currentcar;
+        this.mylocationData[1].value = this.currentbike;
+        this.mylocationData[2].value = this.currentbus;
+        this.mylocationData[3].value = this.currenttruck;
       });
   },
 
@@ -257,14 +289,14 @@ export default {
     locationData() {
       return API.getLocation;
     },
-    levelData() {
-      return API.trafficlevel;
-    },
   },
 };
 </script>
 
 <style scoped>
+.timeseriesbg {
+  background-color: #00bcd4;
+}
 /* LIVE ICON */
 *:before,
 *:after {

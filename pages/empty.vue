@@ -4,29 +4,7 @@
 
  
    
-      <v-flex lg6 sm6 xs6>
-        <v-card
-          color="rgb(38, 137, 189)"
-          dark
-          class="justify-center row layout"
-        >
-          <v-card-title class="headline"> 274 </v-card-title>
-          <br />
-          <v-card-text> <b>Parking Cars</b> </v-card-text>
-        </v-card>
-      </v-flex>
-
-      <v-flex lg6 sm6 xs6>
-        <v-card
-          color="rgb(38, 137, 189)"
-          dark
-          class="justify-center row layout"
-        >
-          <v-card-title class="headline"> 274 </v-card-title>
-          <br />
-          <v-card-text> <b>Parking Cars</b> </v-card-text>
-        </v-card>
-      </v-flex>
+{{ToDos}}
    
   
 </v-layout>
@@ -38,6 +16,8 @@ import toastr from "toastr";
 import { db } from "../firebase/db";
 import axios from "axios";
 
+const slot = db.ref('ParkingLot')
+
 export default {
   layout: "dashboard",
   name: "app",
@@ -46,11 +26,24 @@ export default {
       ToDos: [],
       mytest: [],
       carcount: [],
+      slot: null,
     };
   },
-  firestore: {
-    ToDos: db.collection("ToDos"),
+
+  // watch: {
+  //   id: {
+  //     // call it upon creation too
+  //     immediate: true,
+  //     handler(id) {
+  //       this.$rtdbBind('user', users.child(id))
+  //     },
+  //   },
+  // },
+
+   firebase: {
+    ToDos: db.ref("ParkingLot"),
   },
+  
 
   beforeCreate() {
     axios

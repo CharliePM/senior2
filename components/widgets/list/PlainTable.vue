@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar card dense color="transparent">
-      <v-toolbar-title><h4>Project</h4></v-toolbar-title>
+      <v-toolbar-title><h4>Parking Area Report</h4></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>more_vert</v-icon>
@@ -54,12 +54,12 @@ export default {
           value: 'avatar'
         },
         {
-          text: 'Name',
+          text: 'Area',
           align: 'left',
           value: 'name'
         },
-        { text: 'Deadline', value: 'deadline' },
-        { text: 'Progress', value: 'progress' },
+        { text: 'Total Occupancy', value: 'deadline' },
+        { text: 'Density', value: 'progress' },
         { text: 'Action', value: 'action', align: 'right' },
 
       ],

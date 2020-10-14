@@ -25,47 +25,64 @@
           :value="percent"
           :color="color"
         >
-          <h3>
-            <b>{{ value }}/300</b>
-          </h3>
+          <h2>
+            <b>{{ value }}/3</b>
+          </h2>
         </v-progress-circular>
       </div>
     </v-card-text>
+
     <v-divider></v-divider>
 
-    <!-- CARD FOOT -->
-
-    <!-- CARD FOOT 1 -->
-  
-      <v-layout row wrap>
-        <v-flex lg6 sm6 xs6>
-          <v-card
-            color="rgb(38, 137, 189)"
-            dark
-            class="justify-center row layout ml-0"
-           
-          >
-            <v-card-title class="headline"> 274 </v-card-title>
-            <br />
-            <v-card-text> <b>Parking Cars</b> </v-card-text>
-          </v-card>
-        </v-flex>
-
-        <v-flex lg6 sm6 xs6>
-          <v-card
-            color="rgb(38, 137, 189)"
-            dark
-            class="justify-center row layout mr-0"
-          >
-            <v-card-title class="headline"> 274 </v-card-title>
-            <br />
-            <v-card-text> <b>Parking Cars</b> </v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
-
-
-    <!-- CARD FOOT 2 -->
+    <!-- FOOTER -->
+    <v-layout row wrap>
+      <!-- CARS -->
+      <v-flex lg6 sm6 xs6>
+        <v-card
+          class="layout ml-0 justify-center mycolor1"
+          style="height: 7.5rem"
+        >
+          <v-card-text class="pa-0">
+            <div class="layout row ma-0">
+              <div class="layout column ma-0 py-0 justify-center align-center">
+                <div class="headline mt-4">
+                  <h1>
+                    <b style="color: white">1</b>
+                  </h1>
+                </div>
+                <span class="caption mt-3" style="color: white"
+                  ><h5>Parking Cars</h5></span
+                >
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <!-- CARS END-->
+      <!-- SPOT -->
+      <v-flex lg6 sm6 xs6>
+        <v-card
+          class="layout mr-0 justify-center mycolor2"
+          style="height: 7.5rem"
+        >
+          <v-card-text class="pa-0">
+            <div class="layout row ma-0">
+              <div class="layout column ma-0 py-0 justify-center align-center">
+                <div class="headline mt-4">
+                  <h1>
+                    <b style="color: white">2</b>
+                  </h1>
+                </div>
+                <span class="caption mt-3" style="color: white"
+                  ><h5>Available Spots</h5></span
+                >
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <!-- SPOT END-->
+    </v-layout>
   </v-card>
 </template>
 
@@ -83,8 +100,17 @@ export default {
 </script>
 
 <style scoped>
-.headline {
-  text-align: center;
+.mycolor1 {
+  background-color: #21d4fd;
+  background-image: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
+}
+
+.mycolor2 {
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+p {
+  text-size-adjust: 20px;
 }
 
 .notop {
