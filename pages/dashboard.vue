@@ -252,7 +252,7 @@ export default {
 
   beforeCreate() {
     axios
-      .get("http://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
+      .get("https://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
       .then((res) => {
         this.currentcar = res.data.data.carCount;
         this.currentbike = res.data.data.motorcycleCount;
