@@ -47,7 +47,7 @@
               <div class="layout column ma-0 py-0 justify-center align-center">
                 <div class="headline mt-4">
                   <h1>
-                    <b style="color: white">1</b>
+                    <b style="color: white">{{livecar.B1X}}</b>
                   </h1>
                 </div>
                 <span class="caption mt-3" style="color: white"
@@ -70,7 +70,7 @@
               <div class="layout column ma-0 py-0 justify-center align-center">
                 <div class="headline mt-4">
                   <h1>
-                    <b style="color: white">2</b>
+                    <b style="color: white">{{3-livecar.B1X}}</b>
                   </h1>
                 </div>
                 <span class="caption mt-3" style="color: white"
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     title: String,
@@ -95,7 +96,19 @@ export default {
     value: Number,
     percent: Number,
     color: String,
+    livecar: 0,
   },
+
+  data() {
+    return {
+ 
+    };
+  },
+
+  // firebase: {
+  //   ToDos: db.ref("ParkingLot/LotID"),
+  // },
+
 };
 </script>
 

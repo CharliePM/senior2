@@ -1,5 +1,7 @@
 <template>
-
+<div>
+    Parking Report
+</div>
 </template>
 
 <script>

@@ -42,7 +42,8 @@
           >
           </mini-statistic>
         </v-flex>
-        <!-- linear statistic  end -->
+
+        <!-- linear statistic  Start -->
         <v-flex sm12>
           <h4>Linear Trending</h4>
         </v-flex>
@@ -57,12 +58,13 @@
           </linear-statistic>
 
         </v-flex>
-        <!-- circle statistic  end -->
+
+        <!-- circle statistic  Start -->
         <v-flex sm12>
           <h4>Circle Trending</h4>
         </v-flex>
         <v-flex lg4 sm12 v-for="(item,index) in trending2" :key="'c-trending'+index">
-          <circle-statistic
+          <!-- <circle-statistic
             :title="item.subheading"
             :sub-title="item.headline"
             :caption="item.caption"
@@ -70,7 +72,7 @@
             :color="item.linear.color"
             :value="item.linear.value"
           >
-          </circle-statistic>
+          </circle-statistic> -->
         </v-flex>
       </v-layout>
     </v-container>

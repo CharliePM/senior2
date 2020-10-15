@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex sm12>
           <h4>
-            <b>Today Summary : 16 Oct 2020</b>
+            <b>Today Summary : 16 Oct 2020 </b>
           </h4>
         </v-flex>
 
@@ -63,41 +63,38 @@
           v-for="(item, index) in trending"
           :key="'c-trending' + index"
         >
-          <circle-statistic
+          <!-- <circle-statistic
             :title="item.subheading"
             :sub-title="item.headline"
             :caption="item.caption"
             :color="item.linear.color"
             :value="item.linear.value"
             :percent="item.percent"
+          ></circle-statistic> -->
+          <circle-statistic
+             v-if="ToDos"
+            :livecar="ToDos"
+            :title="item.subheading"
+            :sub-title="item.headline"
+            :caption="item.caption"
+            :color="item.linear.color"
+            :value= ToDos.B1X
+            :percent= mypercent
           ></circle-statistic>
         </v-flex>
 
         <!--Road Time Series -->
         <v-flex lg8 sm12 xs12>
-
-          <v-card class ="timeseriesbg">
+          <v-card class="timeseriesbg">
             <v-card-title>
-              <h4 style="color:white;" class="ml-1"><b>Hourly Vehicles Count </b></h4>
+              <h4 style="color: white" class="ml-1">
+                <b>Hourly Vehicles Count </b>
+              </h4>
             </v-card-title>
-           
-             <DailyTraffic class="mr-2" style="height: 21.5rem;"></DailyTraffic>
-           
-          </v-card>
 
-          <!-- <v-widget title="Vehicles Count Hourly" content-bg="white"> 
-             <v-btn slot="widget-header-action">
-              <b>Today</b>
-            </v-btn>
-            <v-btn slot="widget-header-action">
-              <b>This Week</b>
-              <v-icon class="text--secondary">refresh</v-icon>
-            </v-btn> 
-             <div slot="widget-content">
-              <DailyTraffic style="height: 22rem"></DailyTraffic>
-            </div>
-          </v-widget> -->
-        </v-flex> 
+            <DailyTraffic class="mr-2" style="height: 21.5rem"></DailyTraffic>
+          </v-card>
+        </v-flex>
 
         <!-- Traffic Level Bar -->
         <v-flex lg4 sm12 xs12>
@@ -131,10 +128,8 @@
                     [
                       color.lightBlue.base,
                       color.indigo.base,
-                      color.pink.base,
-                      color.green.base,
-                      color.cyan.base,
                       color.teal.base,
+                      color.pink.base,
                     ],
                   ],
                   ['xAxis.show', false],
@@ -176,7 +171,7 @@
             :chart-color="[color.lightBlue.darken1, 'rgba(255,255,255,0.3)']"
             gradient
             type="area"
-            style="height:25rem"
+            style="height: 25rem"
           ></box-chart>
         </v-flex>
       </v-layout>
@@ -201,6 +196,7 @@ import BoxChart from "@/components/widgets/chart/BoxChart";
 
 import PlainTable from "@/components/widgets/list/PlainTable";
 import PlainTableOrder from "@/components/widgets/list/PlainTableOrder";
+import { db } from "../firebase/db";
 
 export default {
   layout: "dashboard",
@@ -222,49 +218,37 @@ export default {
 
   data: () => ({
     color: Material,
-    selectedTab: "tab-1",
-    categories: "Car",
-
-    currentcar: null,
-    currentbike: null,
-    currentbus: null,
-    currenttruck: null,
+    ToDos: 0,
+    livecar: 8,
+    
 
     trending: [
       {
         subheading: "Parking Lot Occupancy",
-        percent: (1 / 3) * 100,
+        percent: null,
         valueshow: 100,
         linear: {
-          value: 1,
+          value: null,
           color: "info",
         },
       },
     ],
 
-    mytest: null,
-    mycar: 25,
-
+    currentcar: null,
+    currentbike: null,
+    currentbus: null,
+    currenttruck: null,
     mylocationData: [
       { value: null, name: "Car" },
-      {
-        value: 5,
-        name: "Bike",
-      },
-      {
-        value: 2,
-        name: "Bus",
-      },
-      {
-        value: 1,
-        name: "Truck",
-      },
-      {
-        value: 10,
-        name: "Other",
-      },
+      { value: null, name: "Bike" },
+      { value: null, name: "Bus" },
+      { value: null, name: "Truck" },
     ],
   }),
+
+  firebase: {
+    ToDos: db.ref("ParkingLot/LotID"),
+  },
 
   beforeCreate() {
     axios
@@ -289,6 +273,9 @@ export default {
     locationData() {
       return API.getLocation;
     },
+    mypercent() {
+      return (this.ToDos.B1X/3)*100;
+    }
   },
 };
 </script>
@@ -296,6 +283,7 @@ export default {
 <style scoped>
 .timeseriesbg {
   background-color: #00bcd4;
+  background-color: #2994af;
 }
 /* LIVE ICON */
 *:before,

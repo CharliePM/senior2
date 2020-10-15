@@ -48,12 +48,14 @@ export default {
 }
 
 .color1 {
-  background-image: linear-gradient(to top, #007adf 0%, #00ecbc 100%);
+background-image: linear-gradient(to top, #007adf 0%, #00ecbc 100%);
 }
 .color3 {
-background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+/* background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%); */
+background-image: linear-gradient(to top, #007adf 0%, #00ecbc 100%);
 }
 .color4 {
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+/* background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%); */
+background-image: linear-gradient(to top, #007adf 0%, #00ecbc 100%);
 }
 </style>

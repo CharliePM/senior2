@@ -2,10 +2,12 @@
 <v-container grid-list-xl fluid>
 <v-layout row wrap>
 
- 
-   
-{{ToDos}}
-   
+ <!-- <ul>
+   <li v-for="personName of ToDos" v-bind:key ="personName['.key']"> {{personName}} </li>
+ </ul> -->
+ {{ToDos.B1X}}
+ {{3-ToDos.B1X}}
+ {{parkingcar}}  
   
 </v-layout>
 </v-container>
@@ -16,17 +18,22 @@ import toastr from "toastr";
 import { db } from "../firebase/db";
 import axios from "axios";
 
-const slot = db.ref('ParkingLot')
-
 export default {
   layout: "dashboard",
   name: "app",
+
+
+
   data() {
     return {
-      ToDos: [],
-      mytest: [],
-      carcount: [],
-      slot: null,
+
+
+      ToDos: 0,
+
+      mytest: null,
+      carcount: null,
+
+      
     };
   },
 
@@ -40,10 +47,9 @@ export default {
   //   },
   // },
 
-   firebase: {
-    ToDos: db.ref("ParkingLot"),
-  },
-  
+  //  firebase: {
+  //   ToDos: db.ref("ParkingLot/LotID"),
+  // },
 
   beforeCreate() {
     axios
