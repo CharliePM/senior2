@@ -8,6 +8,19 @@ import VueCharts from "vue-chartjs";
 import { Bar, Line } from "vue-chartjs";
 import { CustomTooltips } from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
 export default {
   extends: Line,
   props: {
@@ -93,7 +106,15 @@ export default {
           tooltips: {
             mode: 'index',
             intersect: false,
-
+            // callbacks: {
+            //   label: function(tooltipItem, data) {
+            //     var value = data.datasets[0].data[tooltipItem.index];
+            //     value = value.toString();
+            //     value = value.split(/(?=(?:...)*$)/);
+            //     value = value.join(',');
+            //     return value;
+            //   }
+            // } 
           },
           hover: {
             mode: 'index',
@@ -114,7 +135,6 @@ export default {
                   beginAtZero: true,
                   fontColor: "white",
                   autoSkip: true,
-                  maxTicksLimit: getTickLimit(),
                 },
                 gridLines: {
                   display: false,
@@ -126,6 +146,12 @@ export default {
                 ticks: {
                   beginAtZero: true,
                   fontColor: "white",
+                  userCallback: function(value, index, values) {
+                    value = value.toString();
+                    value = value.split(/(?=(?:...)*$)/);
+                    value = value.join(',');
+                    return value;
+                  },
                 },
                 gridLines: {
                   display: true,

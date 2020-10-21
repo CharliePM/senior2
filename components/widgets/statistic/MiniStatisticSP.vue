@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="height: 21.3rem">
     <v-card-text class="pa-0">
       <v-container class="pa-0">
 

@@ -11,7 +11,7 @@
           <v-widget title="Overall Statistic" content-bg="white">
             <div slot="widget-content">
               <v-layout row wrap>
-                <v-flex lg3 sm6 xs6>
+                <v-flex lg3 sm6 xs12>
                   <mini-statistic
                     v-if="todayroad"
                     :number="todayroad"
@@ -22,7 +22,7 @@
                     iconcolor="white"
                   ></mini-statistic>
                 </v-flex>
-                <v-flex lg3 sm6 xs6>
+                <v-flex lg3 sm6 xs12>
                   <mini-statisticSP
                     v-if="todaypeak && todayleast"
                     :peaktime="todaypeak"
@@ -128,9 +128,9 @@
                   'color',
                   [
                     '#323ff1',
-                    '#9b4ddc',
-                    '#cc88ff',
                     '#00b8ff',
+                    '#cc88ff',
+                    '#7642d0',
                   ],
                 ],
                 ['xAxis.show', false],
