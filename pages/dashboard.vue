@@ -3,9 +3,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h4>
-            <b>Today Summary : 16 Oct 2020 </b>
-          </h4>
+          <h4><b>Today Summary : </b> {{ today }} {{ myrefresh }}</h4>
         </v-flex>
 
         <!-- mini statistic start -->
@@ -13,10 +11,10 @@
           <v-widget title="Overall Statistic" content-bg="white">
             <div slot="widget-content">
               <v-layout row wrap>
-                <v-flex lg3 sm6 xs12>
+                <v-flex lg3 sm6 xs6>
                   <mini-statistic
-                    v-if="currentcar"
-                    :number="currentcar"
+                    v-if="todayroad"
+                    :number="todayroad"
                     icon="fa fa-road"
                     title="Total Pass By"
                     sub-title="Cars"
@@ -24,13 +22,14 @@
                     iconcolor="white"
                   ></mini-statistic>
                 </v-flex>
-                <v-flex lg3 sm6 xs12>
+                <v-flex lg3 sm6 xs6>
                   <mini-statisticSP
-                    peaktime="5 PM"
-                    besttime="3 AM"
+                    v-if="todaypeak && todayleast"
+                    :peaktime="todaypeak"
+                    :besttime="todayleast"
                   ></mini-statisticSP>
                 </v-flex>
-                <v-flex lg3 sm6 xs12>
+                <v-flex lg3 sm6 xs6>
                   <mini-statistic
                     icon="fa fa-car"
                     title="Total Parking "
@@ -40,7 +39,7 @@
                     iconcolor="white"
                   ></mini-statistic>
                 </v-flex>
-                <v-flex lg3 sm6 xs12>
+                <v-flex lg3 sm6 xs6>
                   <mini-statistic
                     icon="fa fa-clock-o"
                     title="AVG Parking Time"
@@ -56,6 +55,7 @@
         </v-flex>
 
         <!-- Live Parking Circle statistic -->
+        <!-- :value="ToDos.B1X" -->
         <v-flex
           lg4
           sm12
@@ -63,23 +63,15 @@
           v-for="(item, index) in trending"
           :key="'c-trending' + index"
         >
-          <!-- <circle-statistic
-            :title="item.subheading"
-            :sub-title="item.headline"
-            :caption="item.caption"
-            :color="item.linear.color"
-            :value="item.linear.value"
-            :percent="item.percent"
-          ></circle-statistic> -->
           <circle-statistic
-             v-if="ToDos"
+            v-if="ToDos"
             :livecar="ToDos"
             :title="item.subheading"
             :sub-title="item.headline"
             :caption="item.caption"
             :color="item.linear.color"
-            :value= ToDos.B1X
-            :percent= mypercent
+            :value="ToDos.B1X"
+            :percent="mypercent"
           ></circle-statistic>
         </v-flex>
 
@@ -98,9 +90,13 @@
 
         <!-- Traffic Level Bar -->
         <v-flex lg4 sm12 xs12>
-          <v-widget title="Traffic Density Level" content-bg="white">
+          <v-widget title="Traffic Density" content-bg="white">
             <div slot="widget-content">
-              <LevelChart style="height: 20rem"></LevelChart>
+              <LevelChart
+                v-if="myrefresh"
+                :myrefresh="myrefresh"
+                style="height: 20rem"
+              ></LevelChart>
             </div>
           </v-widget>
         </v-flex>
@@ -109,49 +105,62 @@
 
         <v-flex sm12>
           <br />
-          <h4><b>Weekly Road Statistic</b></h4>
+          <h4><b>Weekly Road Statistic : </b> From {{ thismon }}</h4>
         </v-flex>
 
         <!-- Categories Pie -->
         <v-flex lg4 sm12 xs12>
-          <v-widget title="Categories Count (This Week)" content-bg="white">
-            <div slot="widget-content">
-              <e-chart
-                v-if="currentcar"
-                :number="currentcar"
-                :path-option="[
-                  ['dataset.source', mylocationData],
+          <v-card class="piebg">
+            <v-card-title class="ml-0">
+              <h4 style="color: white" class="ml-0">
+                <b> Weekly Total Vehicles: </b> <b style="color: white"> {{weektotal}} </b>
+              </h4>
+            </v-card-title>
 
-                  ['legend.bottom', '0'],
+            <e-chart
+              v-if="currentcar"
+              :number="currentcar"
+              :path-option="[
+                ['dataset.source', mylocationData],
+
+                ['legend.bottom', '0'],
+                [
+                  'color',
                   [
-                    'color',
-                    [
-                      color.lightBlue.base,
-                      color.indigo.base,
-                      color.teal.base,
-                      color.pink.base,
-                    ],
+                    '#323ff1',
+                    '#9b4ddc',
+                    '#cc88ff',
+                    '#00b8ff',
                   ],
-                  ['xAxis.show', false],
-                  ['yAxis.show', false],
-                  ['series[0].type', 'pie'],
-                  ['series[0].avoidLabelOverlap', true],
-                  ['series[0].radius', ['50%', '70%']],
-                ]"
-                height="400px"
-                width="100%"
-              ></e-chart>
-            </div>
-          </v-widget>
+                ],
+                ['xAxis.show', false],
+                ['yAxis.show', false],
+                ['series[0].type', 'pie'],
+                ['series[0].avoidLabelOverlap', true],
+                ['series[0].radius', ['50%', '70%']],
+              ]"
+              height="420px"
+              width="100%"
+            ></e-chart>
+          </v-card>
         </v-flex>
 
         <!-- Traffic Counting Group Bar -->
         <v-flex lg8 sm12 xs12>
-          <v-widget title="Categories Count by Day" content-bg="white">
-            <div slot="widget-content">
-              <PoomChart></PoomChart>
-            </div>
-          </v-widget>
+          <v-card class="groupbg">
+            <v-card-title>
+              <h4 style="color: white" class="ml-1">
+                <b> Categories Count by Day </b>
+              </h4>
+            </v-card-title>
+
+            <PoomChart
+              v-if="myrefresh"
+              :myrefresh="myrefresh"
+              class="mr-2"
+              style="height: 420px"
+            ></PoomChart>
+          </v-card>
         </v-flex>
 
         <!-- acitivity/chat widget -->
@@ -198,6 +207,34 @@ import PlainTable from "@/components/widgets/list/PlainTable";
 import PlainTableOrder from "@/components/widgets/list/PlainTableOrder";
 import { db } from "../firebase/db";
 
+var options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
+function getMonday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+    diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  return new Date(d.setDate(diff));
+}
+
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+function formatAMPM(date) {
+  var hours = date;
+  var ampm = hours >= 12 ? "PM" : "AM";
+  var strTime = hours + ":00" + " " + ampm;
+  return strTime;
+}
+
+var today = getMonday(new Date());
+var realtoday = new Date();
+
 export default {
   layout: "dashboard",
   components: {
@@ -219,8 +256,8 @@ export default {
   data: () => ({
     color: Material,
     ToDos: 0,
-    livecar: 8,
-    
+
+    myrefresh: " ",
 
     trending: [
       {
@@ -238,12 +275,20 @@ export default {
     currentbike: null,
     currentbus: null,
     currenttruck: null,
+    weektotal: null,
+
     mylocationData: [
       { value: null, name: "Car" },
       { value: null, name: "Bike" },
       { value: null, name: "Bus" },
       { value: null, name: "Truck" },
     ],
+
+    todayroad: null,
+    todaypark: null,
+    todayavgpark: null,
+    todaypeak: null,
+    todayleast: null,
   }),
 
   firebase: {
@@ -251,19 +296,43 @@ export default {
   },
 
   beforeCreate() {
-    axios
-      .get("https://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
-      .then((res) => {
-        this.currentcar = res.data.data.carCount;
-        this.currentbike = res.data.data.motorcycleCount;
-        this.currentbus = res.data.data.busCount;
-        this.currenttruck = res.data.data.truckCount;
+    axios.get("https://www.mustavi.com/TotalVehicles/").then((res) => {
+      this.currentcar = res.data.data.carCount;
+      this.currentbike = res.data.data.motorcycleCount;
+      this.currentbus = res.data.data.busCount;
+      this.currenttruck = res.data.data.truckCount;
 
-        this.mylocationData[0].value = this.currentcar;
-        this.mylocationData[1].value = this.currentbike;
-        this.mylocationData[2].value = this.currentbus;
-        this.mylocationData[3].value = this.currenttruck;
-      });
+      this.mylocationData[0].value = this.currentcar;
+      this.mylocationData[1].value = this.currentbike;
+      this.mylocationData[2].value = this.currentbus;
+      this.mylocationData[3].value = this.currenttruck;
+      this.weektotal =
+        this.currentbike +
+        this.currentbus +
+        this.currenttruck +
+        this.currentcar;
+      this.weektotal = formatNumber(this.weektotal)
+    });
+
+    axios.get("https://www.mustavi.com/summary/").then((res) => {
+      this.todayroad = res.data.data.RoadTotal;
+      this.todayroad = formatNumber(this.todayroad);
+
+      this.todaypark = res.data.data.ParkTotal;
+      this.todayavgpark = res.data.data.AvgPark;
+
+      this.todaypeak = res.data.data.Peak;
+      this.todaypeak = this.todaypeak.slice(10, 13);
+      this.todaypeak = formatAMPM(this.todaypeak);
+
+      this.todayleast = res.data.data.Least;
+      this.todayleast = this.todayleast.slice(10, 13);
+      this.todayleast = formatAMPM(this.todayleast);
+
+      // var poomday = new Date();
+      // var poomtime = poomday.getHours() + ":" + poomday.getMinutes()
+      // this.myrefresh = poomtime;
+    });
   },
 
   computed: {
@@ -274,95 +343,33 @@ export default {
       return API.getLocation;
     },
     mypercent() {
-      return (this.ToDos.B1X/3)*100;
-    }
+      return (this.ToDos.B1X / 3) * 100;
+    },
+    thismon() {
+      return today.toLocaleDateString("en-US", options);
+    },
+    today() {
+      return realtoday.toLocaleDateString("en-US", options);
+    },
   },
 };
 </script>
 
 <style scoped>
 .timeseriesbg {
-  background-color: #00bcd4;
+  /* background-color: #00bcd4; */
   background-color: #2994af;
 }
-/* LIVE ICON */
-*:before,
-*:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.video__icon {
-  margin-top: -6px;
-  position: absolute;
-  width: 50px;
-  left: 20px;
-  top: 20px;
-}
-.video__icon .circle--outer {
-  border: 1px solid #e50040;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin: 0 auto 5px;
-  position: relative;
-  opacity: 0.8;
-  -webkit-animation: circle 2s ease-in-out infinite;
-  animation: circle 2s ease-in-out infinite;
-}
-.video__icon .circle--inner {
-  background: #e50040;
-  left: 15px;
-  top: 10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-
-  opacity: 0.8;
-}
-.video__icon .circle--inner:after {
-  content: "";
-  display: block;
-  border: 2px solid #e50040;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  top: -4px;
-  left: -4px;
-  position: absolute;
-  opacity: 0.8;
-  -webkit-animation: circle 2s ease-in-out 0.2s infinite;
-  animation: circle 2s ease-in-out 0.2s infinite;
-}
-.video__icon p {
-  color: #000;
-  text-align: center;
+.groupbg {
+  /* background-color: #96dff1; */
+  /* background-image: linear-gradient(to top, #330867 0%, #30cfd0 100%); */
+  background-image: linear-gradient(to top, #72afd3 0%, #33dacc 100%);
 }
 
-@-webkit-keyframes circle {
-  from {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
+.piebg {
 
-  to {
-    -webkit-transform: scale(1.5);
-    transform: scale(1.5);
-    opacity: 0;
-  }
+background-image: linear-gradient(to top,#d7fdff 70%, #217cc7 100%);
+
+
 }
-
-@keyframes circle {
-  from {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-
-  to {
-    -webkit-transform: scale(1.5);
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-/* LIVE ICON END */
 </style>

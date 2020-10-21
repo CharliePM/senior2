@@ -26,7 +26,7 @@
     <v-menu offset-y origin="center center" class="elelvation-1" :nudge-right="140" :nudge-bottom="14" transition="scale-transition">
       <v-btn icon flat slot="activator">
         <v-badge color="red" overlap>
-          <span slot="badge">3</span>
+          <span slot="badge">2</span>
           <v-icon medium>notifications</v-icon>
         </v-badge>
       </v-btn>

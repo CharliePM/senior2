@@ -8,7 +8,7 @@ export default [
   { divider: true, inset: true },
   
   {
-    title: 'New message from Michael',
+    title: 'Parking Lot Full !',
     color: 'red',
     icon: 'email',
     timeLabel: '1 hour ago'

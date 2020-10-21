@@ -5,9 +5,11 @@
  <!-- <ul>
    <li v-for="personName of ToDos" v-bind:key ="personName['.key']"> {{personName}} </li>
  </ul> -->
- {{ToDos.B1X}}
+ <!-- {{ToDos.B1X}}
  {{3-ToDos.B1X}}
- {{parkingcar}}  
+ {{parkingcar}}   -->
+
+ {{mytest}}
   
 </v-layout>
 </v-container>
@@ -53,9 +55,10 @@ export default {
 
   beforeCreate() {
     axios
-      .get("http://www.mustavi.com/TotalVehicles/?param1=2020-09-04")
+      .get("https://www.mustavi.com/DailyTraffic/")
       .then((res) => {
-        this.mytest = res.data.data;
+        this.mytest = res.data.data[0];
+
         this.carcount = res.data.data.carCount;
       });
   },

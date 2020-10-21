@@ -105,10 +105,6 @@ export default {
     };
   },
 
-  // firebase: {
-  //   ToDos: db.ref("ParkingLot/LotID"),
-  // },
-
 };
 </script>
 
