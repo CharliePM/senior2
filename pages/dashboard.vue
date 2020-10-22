@@ -2,8 +2,9 @@
   <div id="pageDashboard">
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
-        <v-flex sm12>
-          <h4><b>Today Summary : </b> {{ today }} {{ myrefresh }}</h4>
+        <v-flex lg12>
+          <h4><b>Today Summary : </b> {{ today }} {{myrefresh}}</h4>
+          <!-- <v-btn v-on:click ='changestring'></v-btn> -->
         </v-flex>
 
         <!-- mini statistic start -->
@@ -31,9 +32,10 @@
                 </v-flex>
                 <v-flex lg3 sm6 xs6>
                   <mini-statistic
+                    v-if="ParkNow"
+                    :number="ParkNow.B1X"
                     icon="fa fa-car"
                     title="Total Parking "
-                    number="359"
                     sub-title="Cars"
                     color="color3"
                     iconcolor="white"
@@ -41,9 +43,10 @@
                 </v-flex>
                 <v-flex lg3 sm6 xs6>
                   <mini-statistic
+                    v-if="AVGNow"
+                    :number="AVGNow.B1X"
                     icon="fa fa-clock-o"
                     title="AVG Parking Time"
-                    number="84"
                     sub-title="Minutes"
                     color="color4"
                     iconcolor="white"
@@ -113,7 +116,8 @@
           <v-card class="piebg">
             <v-card-title class="ml-0">
               <h4 style="color: white" class="ml-0">
-                <b> Weekly Total Vehicles: </b> <b style="color: white"> {{weektotal}} </b>
+                <b> Weekly Total Vehicles: </b>
+                <b style="color: white"> {{ weektotal }} </b>
               </h4>
             </v-card-title>
 
@@ -124,15 +128,7 @@
                 ['dataset.source', mylocationData],
 
                 ['legend.bottom', '0'],
-                [
-                  'color',
-                  [
-                    '#323ff1',
-                    '#00b8ff',
-                    '#cc88ff',
-                    '#7642d0',
-                  ],
-                ],
+                ['color', ['#323ff1', '#00b8ff', '#cc88ff', '#7642d0']],
                 ['xAxis.show', false],
                 ['yAxis.show', false],
                 ['series[0].type', 'pie'],
@@ -187,6 +183,7 @@
     </v-container>
   </div>
 </template>
+
 
 <script>
 import API from "@/api";
@@ -256,6 +253,8 @@ export default {
   data: () => ({
     color: Material,
     ToDos: 0,
+    ParkNow: 0,
+    AVGNow: 0,
 
     myrefresh: " ",
 
@@ -285,15 +284,24 @@ export default {
     ],
 
     todayroad: null,
-    todaypark: null,
-    todayavgpark: null,
     todaypeak: null,
     todayleast: null,
+
   }),
 
   firebase: {
     ToDos: db.ref("ParkingLot/LotID"),
+    ParkNow: db.ref("ParkingLot/Total"),
+    AVGNow: db.ref("ParkingLot/AVG"),
   },
+  
+  methods: {
+    changestring(){
+      this.myrefresh = this.myrefresh+'poom'
+    }
+  },
+
+  
 
   beforeCreate() {
     axios.get("https://www.mustavi.com/TotalVehicles/").then((res) => {
@@ -311,15 +319,15 @@ export default {
         this.currentbus +
         this.currenttruck +
         this.currentcar;
-      this.weektotal = formatNumber(this.weektotal)
+      this.weektotal = formatNumber(this.weektotal);
     });
 
     axios.get("https://www.mustavi.com/summary/").then((res) => {
       this.todayroad = res.data.data.RoadTotal;
       this.todayroad = formatNumber(this.todayroad);
 
-      this.todaypark = res.data.data.ParkTotal;
-      this.todayavgpark = res.data.data.AvgPark;
+      // this.todaypark = res.data.data.ParkTotal + 1;
+      // this.todayavgpark = res.data.data.AvgPark + 1;
 
       this.todaypeak = res.data.data.Peak;
       this.todaypeak = this.todaypeak.slice(10, 13);
@@ -328,10 +336,6 @@ export default {
       this.todayleast = res.data.data.Least;
       this.todayleast = this.todayleast.slice(10, 13);
       this.todayleast = formatAMPM(this.todayleast);
-
-      // var poomday = new Date();
-      // var poomtime = poomday.getHours() + ":" + poomday.getMinutes()
-      // this.myrefresh = poomtime;
     });
   },
 
@@ -367,9 +371,6 @@ export default {
 }
 
 .piebg {
-
-background-image: linear-gradient(to top,#d7fdff 70%, #217cc7 100%);
-
-
+  background-image: linear-gradient(to top, #d7fdff 70%, #217cc7 100%);
 }
 </style>

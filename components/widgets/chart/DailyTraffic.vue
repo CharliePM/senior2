@@ -34,7 +34,7 @@ export default {
   },
 
   watch: {
-    refresh: {
+    myrefresh: {
       immediate: true,
       async handler() {
         this.drawChart(await this.GetAPIData());
@@ -67,7 +67,7 @@ export default {
       this.gradient.addColorStop(1, "#1f81a9");
 
       function getTickLimit() {
-        return window.innerWidth < 600 ? 6 : 15;
+        return window.innerWidth < 300 ? 6 : 12;
       }
 
       this.renderChart(
@@ -75,6 +75,9 @@ export default {
           labels: [
             "Mid", "1 AM",  "2 AM",  "3 AM",  "4 AM",  "5 AM",  "6 AM", "7 AM",  "8 AM",  "9 AM", "10 AM", "11 AM",
             "Noon",  "13 PM", "14 PM", "15 PM",  "16 PM", "17 PM", "18 PM",  "19 PM",  "20 PM", "21 PM", "22 PM",  "23 PM",
+          ],
+          mylabels: [
+            "Today", "Yesterday"
           ],
           datasets: [
             {
@@ -106,15 +109,14 @@ export default {
           tooltips: {
             mode: 'index',
             intersect: false,
-            // callbacks: {
-            //   label: function(tooltipItem, data) {
-            //     var value = data.datasets[0].data[tooltipItem.index];
-            //     value = value.toString();
-            //     value = value.split(/(?=(?:...)*$)/);
-            //     value = value.join(',');
-            //     return value;
-            //   }
-            // } 
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return  data.mylabels[tooltipItems.datasetIndex] + ": " 
+                + data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index].toLocaleString();
+               
+              }
+            },
+            
           },
           hover: {
             mode: 'index',
@@ -135,6 +137,7 @@ export default {
                   beginAtZero: true,
                   fontColor: "white",
                   autoSkip: true,
+                  maxTicksLimit: getTickLimit()
                 },
                 gridLines: {
                   display: false,

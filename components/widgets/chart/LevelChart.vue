@@ -16,7 +16,7 @@ export default {
   },
 
   watch: {
-    refresh: {
+    myrefresh: {
       immediate: true,
       async handler() {
         this.drawChart(await this.GetAPIData());
@@ -56,7 +56,6 @@ export default {
                 "#4ea8de",
                 "#5390d9",
                 "#5e60ce",
-               
               ],
               pointBackgroundColor: "white",
               pointBorderColor: "#249EBF",
@@ -66,6 +65,19 @@ export default {
         },
 
         {
+          
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return "Total Vehicles: "
+                + data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index].toLocaleString();
+               
+              }
+            },
+            
+          },
           responsive: true,
           maintainAspectRatio: false,
 
@@ -77,6 +89,12 @@ export default {
                 },
                 ticks: {
                   beginAtZero: true,
+                  userCallback: function (value, index, values) {
+                    value = value.toString();
+                    value = value.split(/(?=(?:...)*$)/);
+                    value = value.join(",");
+                    return value;
+                  },
                 },
               },
             ],
