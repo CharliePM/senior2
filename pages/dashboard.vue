@@ -292,7 +292,7 @@ export default {
   firebase: {
     ToDos: db.ref("ParkingLot/LotID"),
     ParkNow: db.ref("ParkingLot/Total"),
-    AVGNow: db.ref("ParkingLot/AVG"),
+    AVGNow: db.ref("ParkingLot/AVGTime"),
   },
   
   methods: {
@@ -371,6 +371,6 @@ export default {
 }
 
 .piebg {
-  background-image: linear-gradient(to top, #d7fdff 70%, #217cc7 100%);
+  background-image: linear-gradient(to top, #d7efff 50%, #00aad4 100%);
 }
 </style>
